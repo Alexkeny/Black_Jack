@@ -204,40 +204,35 @@ while True:
         #show_some(player, automative_player)
         
         # If player's hand exceeds 21, run player_busts() and break out of loop
-        if player.value >= 21:
+        if player.value > 21:
+            player_busts(player_chips)
+            print("Player loose")
             break
 
     # If Player hasn't busted, play Dealer's hand until Dealer reaches 17
-    while automative_player.value <= 17:
-        hit(current_deck, automative_player)
+    if player.value <= 21:
+        while automative_player.value <= 17:
+            hit(current_deck, automative_player)
         
-    show_all(player, automative_player)
+        show_all(player, automative_player)
         # Show all cards
     
         # Run different winning scenarios
-    if player.value <= 21 and automative_player.value <= 21:
-        if player.value < automative_player.value:
-            dealer_wins(automative_player_chips)
-            player_busts(player_chips)
-            print("\nDealer wins")
-        elif player.value > automative_player.value:
+        if automative_player.value > 21:
+            dealer_busts(automative_player_chips)
+            player_wins(player_chips)
+            print("\nPlayer wins")
+        elif automative_player.value < player.value:
             player_wins(player_chips)
             dealer_busts(automative_player_chips)
             print("\nPlayer wins")
-        elif player.value == automative_player.value:
+        elif automative_player.value > player.value:
+            dealer_wins(automative_player_chips)
+            player_busts(player_chips)
+            print("\nDealer wins")
+        elif automative_player.value == player.value:
             push()
-    elif player.value > 21 and automative_player.value <= 21:
-        dealer_wins(automative_player_chips)
-        player_busts(player_chips)
-        print("\nDealer wins")
-    elif player.value <= 21 and automative_player.value > 21:
-        player_wins(player_chips)
-        dealer_busts(automative_player_chips)
-        print("\nPlayer wins")
-    elif player.value > 21 and automative_player.value > 21:
-        dealer_busts(automative_player_chips)
-        player_busts(player_chips)
-        print("All players loose")
+            print("It's a push!")
         
     # Inform Player of their chips total 
     print("Your total chips is:", player_chips.total)
